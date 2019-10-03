@@ -30,11 +30,24 @@ string recvFileName()
         
 	/* TODO: declare an instance of the fileNameMsg struct to be
 	 * used for holding the message received from the sender.
+     
          */
         /* TODO: Receive the file name using msgrcv() */
 	
 	/* TODO: return the received file name */
-	
+    //------------------------------------//
+    /*not sure if it works yet
+    fileNameMsg mess;
+    
+    if(msgrcv(msqid, &mess, sizeof(fileNameMsg) - sizeof(long))
+    {
+        perror("msgsnd");
+        exit(-1);
+    }
+    
+    fileName = mess.fileName;*/
+    //------------------------------------//
+
         return fileName;
 }
  /**
@@ -60,12 +73,33 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
     keyfile << "Hello world" <<endl;
     //Taken from slide 63:
     key_t key = ftok("keyfile.txt",'a');
+    
+    if((key < 0)
+       {
+           perror("ftok");
+           cout << "Error getting key";
+           exit(1);
+       }
 
 	/* TODO: Allocate a shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE. */
-	
+	// Taken from http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/shm/shmget.html
+       //not completed
+       
+       shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, 0666 | IPC_CREAT);
+
+       
+       
+       
 	/* TODO: Attach to the shared memory */
+       
+       sharedMemPtr = shmat(shmid, NULL, 0);
+
 	
 	/* TODO: Create a message queue */
+       
+       //from https://www.geeksforgeeks.org/ipc-using-message-queues/
+       
+       msqid = msgget(msgget(key, 0666 | IPC_CREAT);
 	
 	/* TODO: Store the IDs and the pointer to the shared memory region in the corresponding parameters */
 	
