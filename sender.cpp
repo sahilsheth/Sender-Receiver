@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <iostream>
+#include <fstream>
 #include "msg.h"    /* For the message struct */
+using namespace std;
 
 /* The size of the shared memory segment */
 #define SHARED_MEMORY_CHUNK_SIZE 1000
@@ -23,7 +26,7 @@ void* sharedMemPtr;
 void init(int& shmid, int& msqid, void*& sharedMemPtr)
 {
 	/* TODO: 
-        1. Create a file called keyfile.txt containing string "Hello world" (you may do
+        1. DONE: Create a file called keyfile.txt containing string "Hello world" (you may do
  	    so manually or from the code).
 	2. Use ftok("keyfile.txt", 'a') in order to generate the key.
 	3. Use will use this key in the TODO's below. Use the same key for the queue
@@ -32,7 +35,10 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
 	   like the file name and the id is like the file object.  Every System V object 
 	   on the system has a unique id, but different objects may have the same key.
 	*/
-	
+    ofstream keyfile("keyfile.txt");
+    keyfile << "Hello world" <<endl;
+    //Taken from slide 63:
+    key_t key = ftok("keyfile.txt",'a');
 
 	
 	/* TODO: Get the id of the shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE */
@@ -50,7 +56,9 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
  */
 void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
 {
-	/* TODO: Detach from shared memory */
+	/* DONE: Detach from shared memory */
+    //Taken from slide 62
+    shmdt(sharedMemPtr);
 }
 
 /**
