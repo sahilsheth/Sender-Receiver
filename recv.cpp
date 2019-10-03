@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <iostream>
+#include <fstream>
 #include <string>
 #include "msg.h"    /* For the message struct */
 
@@ -207,24 +209,31 @@ void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
  */
 void ctrlCSignal(int signal)
 {
-	/* Free system V resources */
-	cleanUp(shmid, msqid, sharedMemPtr);
+    /* Free system V resources */
+    cout<<endl<<"Ctrl-C pressed, cleaning up and exiting."<<endl;
+    cleanUp(shmid, msqid, sharedMemPtr);
+    exit(0);
+
 }
 
 int main(int argc, char** argv)
 {
 	
-	/* TODO: Install a signal handler (see signaldemo.cpp sample file).
+	/* DONE: Install a signal handler (see signaldemo.cpp sample file).
  	 * If user presses Ctrl-c, your program should delete the message
  	 * queue and the shared memory segment before exiting. You may add 
 	 * the cleaning functionality in ctrlCSignal().
  	 */
-				
+    signal(SIGINT, ctrlCSignal);
+
 	/* Initialize */
 	init(shmid, msqid, sharedMemPtr);
 	
 	/* Receive the file name from the sender */
 	string fileName = recvFileName();
+    
+        //Uncomment the following line to test signal
+        //pause();
 	
 	/* Go to the main loop */
 	fprintf(stderr, "The number of bytes received is: %lu\n", mainLoop(fileName.c_str()));
