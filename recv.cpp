@@ -31,7 +31,6 @@ string recvFileName()
 	/* TODO: declare an instance of the fileNameMsg struct to be
 	 * used for holding the message received from the sender.
          */
-
         /* TODO: Receive the file name using msgrcv() */
 	
 	/* TODO: return the received file name */
@@ -57,7 +56,10 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
 	   like the file name and the id is like the file object.  Every System V object 
 	   on the system has a unique id, but different objects may have the same key.
 	*/
-	
+    ofstream keyfile("keyfile.txt");
+    keyfile << "Hello world" <<endl;
+    //Taken from slide 63:
+    key_t key = ftok("keyfile.txt",'a');
 
 	/* TODO: Allocate a shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE. */
 	
@@ -154,11 +156,15 @@ unsigned long mainLoop(const char* fileName)
  */
 void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
 {
-	/* TODO: Detach from shared memory */
-	
-	/* TODO: Deallocate the shared memory segment */
-	
-	/* TODO: Deallocate the message queue */
+    
+    //Taken from slide 62:
+    cout<<"Commencing Clean Up."<<endl;
+	/* DONE: Detach from shared memory */
+    shmdt(sharedMemPtr);
+	/* DONE: Deallocate the shared memory segment */
+    shmctl(shmid,IPC_RMID,NULL);
+	/* DONE: Deallocate the message queue */
+    shmctl(msqid,IPC_RMID,NULL);
 }
 
 /**
@@ -189,9 +195,10 @@ int main(int argc, char** argv)
 	/* Go to the main loop */
 	fprintf(stderr, "The number of bytes received is: %lu\n", mainLoop(fileName.c_str()));
 
-	/* TODO: Detach from shared memory segment, and deallocate shared memory 
+	/* DONE: Detach from shared memory segment, and deallocate shared memory 
 	 * and message queue (i.e. call cleanup) 
 	 */
+    cleanUp(shmid,msqid,sharedMemPtr);
 		
 	return 0;
 }
