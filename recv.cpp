@@ -104,7 +104,7 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
        msqid = msgget(key, 0666 | IPC_CREAT);
 	
 	/* TODO: Store the IDs and the pointer to the shared memory region in the corresponding parameters */
-	
+    init(shmid,msqid,sharedMemPtr);
 }
  
 
@@ -166,10 +166,16 @@ unsigned long mainLoop(const char* fileName)
 				perror("fwrite");
 			}
 			
-			/* TODO: Tell the sender that we are ready for the next set of bytes. 
+			/* DONE: Tell the sender that we are ready for the next set of bytes.
  			 * I.e., send a message of type RECV_DONE_TYPE. That is, a message
 			 * of type ackMessage with mtype field set to RECV_DONE_TYPE. 
  			 */
+            
+            struct message sendMessage;
+            sendMessage.mtype = RECV_DONE_TYPE;
+            msgsnd(msqid,&sendMessage.mtype,msgSize,0);
+            
+            
 		}
 		/* We are done */
 		else
