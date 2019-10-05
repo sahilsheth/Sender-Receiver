@@ -18,7 +18,8 @@ int shmid, msqid;
 /* The pointer to the shared memory */
 void* sharedMemPtr;
 
-fileNameMsg msg; //Message for the sender
+ //Message for the sender
+fileNameMsg msg;
 
 /**
  * Sets up the shared memory segment and message queue
@@ -26,10 +27,9 @@ fileNameMsg msg; //Message for the sender
  * @param msqid - the id of the allocated message queue
  */
 
-
 void init(int& shmid, int& msqid, void*& sharedMemPtr)
 {
-	/* TODO:
+	/* DONE:
         1. DONE: Create a file called keyfile.txt containing string "Hello world" (you may do
  	    so manually or from the code).
 	2. Use ftok("keyfile.txt", 'a') in order to generate the key.
@@ -44,14 +44,20 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
     //Taken from slide 63:
     key_t key = ftok("keyfile.txt",'a');
 
-	/* TODO: Get the id of the shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE */
-    shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, 0666 | IPC_CREAT);
-	/* TODO: Attach to the shared memory */
-    sharedMemPtr = shmat(shmid, NULL, 0);
-	/* TODO: Attach to the message queue */
-  //Slide 67
-    msgsnd(msqid, &msg, sizeof(msg) - sizeof(long), 0);
-	/* Store the IDs and the pointer to the shared memory region in the corresponding function parameters */
+	/* DONE: Get the id of the shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE */
+  shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, 0666 | IPC_CREAT);
+	/* DONE: Attach to the shared memory */
+  sharedMemPtr = shmat(shmid, NULL, 0);
+	/* DONE: Attach to the message queue */
+  //Slide 64
+  msqid = msgget(key, 0666 | IPC_CREAT);
+  //Slide 67, places message into the queue
+  msgsnd(msqid, &msg, sizeof(msg) - sizeof(long), 0);
+	/* DONE: Store the IDs and the pointer to the shared memory region in the corresponding function parameters */
+  //Source: https://www.tldp.org/LDP/lpg/node36.html
+  //Performs control operations on a message queue
+  msgctl(shmid, msqid, 0);
+  //msgctl(msqid, sharedMemPtr, 0); //Cant include sharedMemPtr
 }
 
 /**
