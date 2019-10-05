@@ -76,7 +76,7 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
     //Taken from slide 63:
     key_t key = ftok("keyfile.txt",'a');
     
-    if((key < 0)
+    if(key < 0)
        {
            perror("ftok");
            cout << "Error getting key";
@@ -101,7 +101,7 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
        
        //from https://www.geeksforgeeks.org/ipc-using-message-queues/
        
-       msqid = msgget(msgget(key, 0666 | IPC_CREAT);
+       msqid = msgget(msgget(key, 0666 | IPC_CREAT));
 	
 	/* TODO: Store the IDs and the pointer to the shared memory region in the corresponding parameters */
 	
