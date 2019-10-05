@@ -101,7 +101,7 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
        
        //from https://www.geeksforgeeks.org/ipc-using-message-queues/
        
-       msqid = msgget(msgget(key, 0666 | IPC_CREAT));
+       msqid = msgget(key, 0666 | IPC_CREAT);
 	
 	/* TODO: Store the IDs and the pointer to the shared memory region in the corresponding parameters */
 	
