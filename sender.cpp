@@ -56,8 +56,8 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
 	/* DONE: Store the IDs and the pointer to the shared memory region in the corresponding function parameters */
   //Source: https://www.tldp.org/LDP/lpg/node36.html
   //Performs control operations on a message queue
-  msgctl(shmid, msqid, 0);
-  //msgctl(msqid, sharedMemPtr, 0); //Cant include sharedMemPtr
+  //msgctl(shmid, msqid, 0);
+  init(shmid, msqid, sharedMemPtr);
 }
 
 /**
