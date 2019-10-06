@@ -44,6 +44,14 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
     //Taken from slide 63:
     key_t key = ftok("keyfile.txt",'a');
 
+    //error check
+    if(key < 0)
+       {
+           perror("ftok");
+           cout << "Error getting key";
+           exit(1);
+       }
+
 	/* DONE: Get the id of the shared memory segment. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE */
   shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, 0666 | IPC_CREAT);
 	/* DONE: Attach to the shared memory */
@@ -130,8 +138,12 @@ unsigned long sendFile(const char* fileName)
  	  * Lets tell the receiver that we have nothing more to send. We will do this by
  	  * sending a message of type SENDER_DATA_TYPE with size field set to 0.
 	  */
-
-
+    
+    //Similar to what was in the recv.cpp, unsure if correct
+    struct message sendMessage;
+    sendMessage.mtype = SENDER_DATA_TYPE;
+    sendMessage.size = 0;
+    msgsnd(msqid,&sendMessage.mtype,sendMessage.size,0);
 	/* Close the file */
 	fclose(fp);
 
