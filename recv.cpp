@@ -37,17 +37,16 @@ string recvFileName()
         /* TODO: Receive the file name using msgrcv() */
 	
 	/* TODO: return the received file name */
-    //------------------------------------//
-    /*not sure if it works yet
+    //not sure if it works yet
     fileNameMsg mess;
     
-    if(msgrcv(msqid, &mess, sizeof(fileNameMsg) - sizeof(long))
+    if(msgrcv(msqid, &mess, sizeof(fileNameMsg) - sizeof(long)) < 0)
     {
         perror("msgsnd");
         exit(-1);
     }
     
-    fileName = mess.fileName;*/
+    fileName = mess.fileName;
     //------------------------------------//
 
         return fileName;
@@ -125,6 +124,7 @@ unsigned long mainLoop(const char* fileName)
 	string recvFileNameStr = fileName;
 	
 	/* TODO: append __recv to the end of file name */
+	recvFileNameStr.append("__recv");
 	
 	/* Open the file for writing */
 	FILE* fp = fopen(recvFileNameStr.c_str(), "w");
