@@ -157,22 +157,39 @@ unsigned long sendFile(const char* fileName)
 void sendFileName(const char* fileName)
 {
 	/* Get the length of the file name */
-	int fileNameSize = strlen(fileName);
+	int fileNameSizes = strlen(fileName);
 
 	/* TODO: Make sure the file name does not exceed
 	 * the maximum buffer size in the fileNameMsg
 	 * struct. If exceeds, then terminate with an error.
 	 */
-
+	//MAX_FILE_NAME_SIZE, according to msg.h, is the max size of the file
+	if(fileNameSizes > MAX_FILE_NAME_SIZE)
+	{
+		perror("size of file is too long");
+		exit(-1);
+	}
 	/* TODO: Create an instance of the struct representing the message
 	 * containing the name of the file.
 	 */
+         fileNameMsg msgs;
 
 	/* TODO: Set the message type FILE_NAME_TRANSFER_TYPE */
+	//name "m" stands for unsigned long 
+	
+	msgs.mtype = FILE_NAME_TRANSFER_TYPE;
 
 	/* TODO: Set the file name in the message */
+	//part of code from https://stackoverflow.com/questions/57081303/i-have-encountered-buffer-overflow-array-index-out-of-bounds-error
+	strncpy(msgs.fileName, fileName, fileName + 1);
 
 	/* TODO: Send the message using msgsnd */
+	if (msgsnd(msqid, &msgs, sizeof(fileNameMsg) - sizeof(long), 0) < 0)
+	{
+		perror("msgsnd");
+		exit(-1);
+	}
+    }
 }
 
 
