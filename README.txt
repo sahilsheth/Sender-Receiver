@@ -30,7 +30,10 @@ Member Contributions:
     -Set the file name in the message in sendFileName(const char* fileName)
 
 
-
+  Cesar:
+    - Finished init function for sender.cpp
+    - Attached message to shared memory and message queue
+    - An object of the message struct was passed into the function 
 
 
 
