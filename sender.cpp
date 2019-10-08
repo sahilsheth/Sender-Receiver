@@ -128,11 +128,11 @@ unsigned long sendFile(const char* fileName)
 		/* TODO: Send a message to the receiver telling him that the data is ready
  		 * to be read (message of type SENDER_DATA_TYPE).
  		 */
-		
+
 		sendMsg.mtype = SENDER_DATA_TYPE;
 		cout << "Print out message type" << endl;
 		cout << "Send message" << endl;
-		if(msgsnd(msqid, &sndMsg, sizeof(message) - sizeof(long), 0) < 0)
+		if(msgsnd(msqid, &sendMsg, sizeof(message) - sizeof(long), 0) < 0)
 		{
 			perror("msgnsd");
 			cout << "msgnsd error" << endl;
@@ -143,10 +143,10 @@ unsigned long sendFile(const char* fileName)
  		 * that he finished saving a chunk of memory.
  		 */
 		//unsure if it works
-		if(msgrcv(msqid, &recvMsg, sizeof(recvMsg)-size(long), RECV_DONE_TYPE, 0) < 0)
+		if(msgrcv(msqid, &recvMsg, sizeof(recvMsg)-sizeof(long), RECV_DONE_TYPE, 0) < 0)
 		{
 			perror("msgrcv");
-			cout < "message not received" << endl;
+			cout << "message not received" << endl;
 			exit(1);
 		}
 		cout << "Message received" << endl;
@@ -157,7 +157,7 @@ unsigned long sendFile(const char* fileName)
  	  * Lets tell the receiver that we have nothing more to send. We will do this by
  	  * sending a message of type SENDER_DATA_TYPE with size field set to 0.
 	  */
-    
+
     //Similar to what was in the recv.cpp, unsure if correct
     struct message sendMessage;
     sendMessage.mtype = SENDER_DATA_TYPE;
@@ -194,8 +194,8 @@ void sendFileName(const char* fileName)
          fileNameMsg msgs;
 
 	/* TODO: Set the message type FILE_NAME_TRANSFER_TYPE */
-	//name "m" stands for unsigned long 
-	
+	//name "m" stands for unsigned long
+
 	msgs.mtype = FILE_NAME_TRANSFER_TYPE;
 
 	/* TODO: Set the file name in the message */
@@ -208,8 +208,8 @@ void sendFileName(const char* fileName)
 		perror("msgsnd");
 		exit(-1);
 	}
-    }
 }
+// }
 
 
 int main(int argc, char** argv)
