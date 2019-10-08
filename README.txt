@@ -2,6 +2,7 @@
 Written in C++
 Members:
   Marco Botello, Section 1, marco.botello@csu.fullerton.edu
+  Emmanuel Khlot Section 1, ekhlot@csu.fullerton.edu
 
 
 How to Run Program:
@@ -16,6 +17,10 @@ Member Contributions:
     -cleanUp() function delcared to be called in main and detach memory
     -Implemented Ctrl-C Signal handling (deallocate mem and delete message queue)
     -Implemented sending a message to sender from recv when ready for next set of bytes
+  Emmanuel
+    -syntax correction
+    -Linux implementation
+    - Documentation
 
 
 
