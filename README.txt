@@ -1,6 +1,7 @@
 # Sender-Receiver
 Written in C++
 Members:
+  Sahil Sheth,   Section 1, sahilsheth642@csu.fullerton.edu
   Marco Botello, Section 1, marco.botello@csu.fullerton.edu
   Emmanuel Khlot Section 1, ekhlot@csu.fullerton.edu
 
@@ -21,6 +22,13 @@ Member Contributions:
     -syntax correction
     -Linux implementation
     - Documentation
+    
+  Sahil:
+    -init() generates a key for the queue and the shared memory segment
+    -recvFileName() receiving the name of the file
+    -Counting the bytes sent and message to the recevier in sendFile(const char* fileName): main send function
+    -Set the file name in the message in sendFileName(const char* fileName)
+
 
 
 
