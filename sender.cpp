@@ -123,6 +123,7 @@ unsigned long sendFile(const char* fileName)
 		}
 
 		/* TODO: count the number of bytes sent. */
+		numBytesSent = numBytesSent + sendMsg.size;
 
 		/* TODO: Send a message to the receiver telling him that the data is ready
  		 * to be read (message of type SENDER_DATA_TYPE).
