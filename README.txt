@@ -5,6 +5,9 @@ Members:
 
 
 How to Run Program:
+  Step 1.) In terminal use 'cd ... ' to change directory to the folder named Sender-Receiver
+  Step 2.) Type make, this will execute the makefile which will compile the cpp files
+  Step 3.) Use './sender <TEXTFILE>' to run sender on a file
 
 
 
