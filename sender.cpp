@@ -90,10 +90,10 @@ unsigned long sendFile(const char* fileName)
 {
 
 	/* A buffer to store message we will send to the receiver. */
-	message sndMsg;
+	message sendMsg;
 
 	/* A buffer to store message received from the receiver. */
-	ackMessage rcvMsg;
+	ackMessage recvMsg;
 
 	/* The number of bytes sent */
 	unsigned long numBytesSent = 0;
@@ -104,7 +104,7 @@ unsigned long sendFile(const char* fileName)
 	/* Was the file open? */
 	if(!fp)
 	{
-		perror("fopen");
+		perror("file is not");
 		exit(-1);
 	}
 
@@ -116,9 +116,9 @@ unsigned long sendFile(const char* fileName)
 		 * actually read. This is important; the last chunk read may be less than
 		 * SHARED_MEMORY_CHUNK_SIZE.
  		 */
-		if((sndMsg.size = fread(sharedMemPtr, sizeof(char), SHARED_MEMORY_CHUNK_SIZE, fp)) < 0)
+		if((sendMsg.size = fread(sharedMemPtr, sizeof(char), SHARED_MEMORY_CHUNK_SIZE, fp)) < 0)
 		{
-			perror("fread");
+			perror("cannot be read");
 			exit(-1);
 		}
 
@@ -127,10 +127,28 @@ unsigned long sendFile(const char* fileName)
 		/* TODO: Send a message to the receiver telling him that the data is ready
  		 * to be read (message of type SENDER_DATA_TYPE).
  		 */
+		
+		sendMsg.mtype = SENDER_DATA_TYPE;
+		cout << "Print out message type" << endl;
+		cout << "Send message" << endl;
+		if(msgsnd(msqid, &sndMsg, sizeof(message) - sizeof(long), 0) < 0)
+		{
+			perror("msgnsd");
+			cout << "msgnsd error" << endl;
+		}
+		cout << "message sent" << endl;
 
 		/* TODO: Wait until the receiver sends us a message of type RECV_DONE_TYPE telling us
  		 * that he finished saving a chunk of memory.
  		 */
+		//unsure if it works
+		if(msgrcv(msqid, &recvMsg, sizeof(recvMsg)-size(long), RECV_DONE_TYPE, 0) < 0)
+		{
+			perror("msgrcv");
+			cout < "message not received" << endl;
+			exit(1);
+		}
+		cout << "Message received" << endl;
 	}
 
 
