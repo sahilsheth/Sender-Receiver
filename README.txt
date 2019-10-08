@@ -4,6 +4,7 @@ Members:
   Sahil Sheth,   Section 1, sahilsheth642@csu.fullerton.edu
   Marco Botello, Section 1, marco.botello@csu.fullerton.edu
   Emmanuel Khlot Section 1, ekhlot@csu.fullerton.edu
+  Cesar Martinez Melgoza Section 1, cesmartz10@csu.fullerton.edu
 
 
 How to Run Program:
