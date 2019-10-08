@@ -200,7 +200,7 @@ void sendFileName(const char* fileName)
 
 	/* TODO: Set the file name in the message */
 	//part of code from https://stackoverflow.com/questions/57081303/i-have-encountered-buffer-overflow-array-index-out-of-bounds-error
-	strncpy(msgs.fileName, fileName, fileName + 1);
+	strncpy(msgs.fileName, fileName, MAX_FILE_NAME_SIZE);
 
 	/* TODO: Send the message using msgsnd */
 	if (msgsnd(msqid, &msgs, sizeof(fileNameMsg) - sizeof(long), 0) < 0)
