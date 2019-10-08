@@ -40,7 +40,8 @@ string recvFileName()
     //not sure if it works yet
     fileNameMsg mess;
     
-    if(msgrcv(msqid, &mess, sizeof(fileNameMsg) - sizeof(long)) < 0)
+
+    if(msgrcv(msqid, &mess, sizeof(fileNameMsg) - sizeof(long), FILE_NAME_TRANSFER_TYPE, 0) < 0)
     {
         perror("msgsnd");
         exit(-1);
@@ -161,7 +162,7 @@ unsigned long mainLoop(const char* fileName)
 			/* TODO: count the number of bytes received */
 			
 			/* Save the shared memory to file */
-			if(fwrite(sharedMemPtr, sizeof(char), msgSize, fp) < 0)
+			if(fwrite(sharedMemPtr, sizeof(char), msgSize, fp) == -1)
 			{
 				perror("fwrite");
 			}
