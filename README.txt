@@ -1,4 +1,5 @@
 # Sender-Receiver
+Written in C++
 Members:
   Marco Botello, Section 1, marco.botello@csu.fullerton.edu
 
@@ -13,3 +14,8 @@ Member Contributions:
     -Implemented Ctrl-C Signal handling
     -Implemented sending a message to sender from recv when ready for next set of bytes
 
+
+
+
+
+Extra Credit Not Implemented
